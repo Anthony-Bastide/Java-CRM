@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.crm.AddController">
+    <children>
+        <TextField fx:id="add_address" layoutX="37.0" layoutY="58.0" prefHeight="18.0" prefWidth="164.0" />
+        <TextField fx:id="add_name" layoutX="80.0" layoutY="116.0" prefHeight="26.0" prefWidth="306.0" />
+        <TextField fx:id="add_country" layoutX="218.0" layoutY="58.0" prefHeight="18.0" prefWidth="164.0" />
+        <TextField fx:id="add_email" layoutX="400.0" layoutY="58.0" prefHeight="18.0" prefWidth="164.0" />
+        <Label layoutX="37.0" layoutY="36.0" text="Adresse :" />
+        <Label layoutX="218.0" layoutY="36.0" text="Pays :" />
+        <Label layoutX="400.0" layoutY="36.0" text="E-Mail :" />
+        <Label layoutX="80.0" layoutY="92.0" text="Nom :" />
+        <Button layoutX="402.0" layoutY="117.0" mnemonicParsing="false" onAction="#oneClickAdd" text="Ajouter" />
+      <Button layoutX="468.0" layoutY="116.0" mnemonicParsing="false" onAction="#oneClickReturn" text="Retour" />
+    </children>
+</AnchorPane>

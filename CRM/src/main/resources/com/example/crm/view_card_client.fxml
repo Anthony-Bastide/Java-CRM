@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.crm.CardClientController">
+   <children>
+      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Informations Client">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="modify_name" layoutX="33.0" layoutY="32.0" />
+                        <Label layoutX="33.0" layoutY="10.0" text="Nom :" />
+                        <TextField fx:id="modify_country" layoutX="225.0" layoutY="30.0" />
+                        <Label layoutX="225.0" layoutY="8.0" text="Pays :" />
+                        <TextField fx:id="modify_email" layoutX="225.0" layoutY="94.0" />
+                        <Label layoutX="225.0" layoutY="71.0" text="Email :" />
+                        <TextField fx:id="modify_phone" layoutX="33.0" layoutY="93.0" />
+                        <Label layoutX="33.0" layoutY="71.0" text="Téléphone :" />
+                        <TextField fx:id="modify_address" layoutX="417.0" layoutY="32.0" />
+                        <Label layoutX="417.0" layoutY="10.0" text="Addresse :" />
+                        <TextField fx:id="modify_civility" layoutX="417.0" layoutY="94.0" />
+                        <Label layoutX="417.0" layoutY="70.0" text="Civilité" />
+                        <Button layoutX="418.0" layoutY="203.0" mnemonicParsing="false" onAction="#updateClientCard1" prefHeight="26.0" prefWidth="147.0" text="Modifier" />
+                        <TextArea fx:id="modify_info_add" layoutX="33.0" layoutY="153.0" prefHeight="86.0" prefWidth="341.0" />
+                        <Label layoutX="33.0" layoutY="132.0" text="Information supplémentaire :" />
+                        <TextField fx:id="modify_activity" layoutX="417.0" layoutY="164.0" />
+                        <Label layoutX="417.0" layoutY="141.0" text="Activité :" />
+                        <Button layoutX="224.0" layoutY="330.0" mnemonicParsing="false" onAction="#oneClickReturn" prefHeight="26.0" prefWidth="150.0" text="Retour" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Information Agence">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="modify_company_name" layoutX="225.0" layoutY="40.0" />
+                        <Label layoutX="225.0" layoutY="22.0" text="Nom :" />
+                        <TextField fx:id="modify_company_address" layoutX="420.0" layoutY="40.0" />
+                        <Label layoutX="420.0" layoutY="22.0" text="Addresse :" />
+                        <TextField fx:id="modify_status" layoutX="32.0" layoutY="40.0" />
+                        <Label layoutX="32.0" layoutY="22.0" text="Status :" />
+                        <TextField fx:id="modify_website" layoutX="32.0" layoutY="94.0" />
+                        <Label layoutX="32.0" layoutY="76.0" text="Site :" />
+                        <TextField fx:id="modify_company_activity" layoutX="225.0" layoutY="94.0" />
+                        <Label layoutX="225.0" layoutY="76.0" text="Activité :" />
+                        <Button layoutX="32.0" layoutY="144.0" mnemonicParsing="false" onAction="#updateClientCard2" prefHeight="26.0" prefWidth="100.0" text="Modifier" />
+                        <TextField fx:id="modify_siret" layoutX="420.0" layoutY="94.0" />
+                        <Label layoutX="420.0" layoutY="76.0" text="Siret :" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
