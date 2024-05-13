@@ -1,7 +1,10 @@
 package com.example.crm;
 
+import BDD.Users;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+
+import java.util.prefs.Preferences;
 
 public class IndexController {
     @FXML
@@ -29,5 +32,17 @@ public class IndexController {
 
         MainView view = new MainView();
         view.changeSceneForAdd("view_add.fxml");
+    }
+    @FXML
+    private void oneClickManagementUsers() {
+        Preferences prefs = Preferences.userNodeForPackage(Users.class);
+        String myRole = prefs.get("role","default_value");
+        if (myRole.equals("0")) {
+            MainView view = new MainView();
+            view.changeSceneForManagementUsers("view_management_users.fxml");
+        } else {
+            String myId = prefs.get("id","default_value");
+            MainView.changeSceneForFicheUser("view_user_profil.fxml", Integer.parseInt(myId));
+        }
     }
 }

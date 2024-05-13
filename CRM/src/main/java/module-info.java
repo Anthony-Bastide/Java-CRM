@@ -8,6 +8,7 @@ module com.example.crm {
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
     requires org.kordamp.ikonli.fontawesome5;
+    requires java.prefs;
 
     opens com.example.crm to javafx.fxml;
     exports com.example.crm;

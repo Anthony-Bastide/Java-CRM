@@ -1,10 +1,14 @@
 package com.example.crm;
 
+import java.util.prefs.Preferences;
+
+import BDD.Users;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -87,7 +91,61 @@ public class MainView extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(MainView.class.getResource(fxml));
             Parent root = fxmlLoader.load();
             scene.setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void changeSceneForManagementUsers(String fxml) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainView.class.getResource(fxml));
+            Parent root = fxmlLoader.load();
+            scene.setRoot(root);
+
+            Platform.runLater(() -> {
+                ManagementUsers managementUsers= fxmlLoader.getController();
+                try {
+                    managementUsers.getUsersBdd();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void changeSceneForFicheUser(String fxml, int id) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainView.class.getResource(fxml));
+            Parent root = fxmlLoader.load();
+            scene.setRoot(root);
+
+            Platform.runLater(() -> {
+                CardUserController cardUserController = fxmlLoader.getController();
+                cardUserController.setId(id);
+                try {
+                    cardUserController.getUsersBdd(id);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeSceneForAddUser(String fxml) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainView.class.getResource(fxml));
+            Parent root = fxmlLoader.load();
+            scene.setRoot(root);
+
+            Platform.runLater(() -> {
+                AddUserController addUserController = fxmlLoader.getController();
+                addUserController.addDisplayChoiceBox();
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
