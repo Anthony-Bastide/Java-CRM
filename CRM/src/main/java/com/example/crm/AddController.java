@@ -2,6 +2,7 @@ package com.example.crm;
 
 import BDD.Clients;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 public class AddController {
@@ -24,9 +25,17 @@ public class AddController {
 
         Clients clients = new Clients();
         int id_client = clients.add_client(name, country, email, address);
+        if (id_client != -1) {
+            MainView view = new MainView();
+            MainView.changeSceneForFicheClient("view_card_client.fxml", id_client);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Problème de creation du client");
+            alert.setHeaderText(null);
+            alert.setContentText("La création du client a été echouée");
+            alert.showAndWait();
+        }
 
-        MainView view = new MainView();
-        MainView.changeSceneForFicheClient("view_card_client.fxml", id_client);
     }
     @FXML
     private void oneClickReturn() {

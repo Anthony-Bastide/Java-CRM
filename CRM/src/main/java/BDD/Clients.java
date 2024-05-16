@@ -8,7 +8,7 @@ public class Clients {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        int clientId = 0;
+        int clientId = -1;
 
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crm_java", "root", "");
@@ -103,11 +103,11 @@ public class Clients {
         return rs;
     }
 
-    public void updateClientCard1(int id, String name, String country, String address, String phone, String email,
+    public boolean updateClientCard1(int id, String name, String country, String address, String phone, String email,
                                   String civility, String info_add, String activity) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
+        boolean success = false;
 
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crm_java", "root", "");
@@ -124,16 +124,19 @@ public class Clients {
             stmt.setString(8, activity);
             stmt.setInt(9, id);
             stmt.executeUpdate();
+            success = true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return success;
     }
 
-    public void updateClientCard2(int id, String company_name, String siret, String status, String company_activity,
+    public boolean updateClientCard2(int id, String company_name, String siret, String status, String company_activity,
                                   String company_address, String website) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
+        boolean success = false;
 
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crm_java", "root", "");
@@ -148,15 +151,18 @@ public class Clients {
             stmt.setString(6, website);
             stmt.setInt(7, id);
             stmt.executeUpdate();
+            success = true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return success;
     }
 
-    public void deleteClient(int id) throws SQLException {
+    public boolean deleteClient(int id) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
+        boolean success = false;
 
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/crm_java", "root", "");
@@ -164,8 +170,10 @@ public class Clients {
             stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, id);
             stmt.executeUpdate();
+            success = true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return success;
     }
 }

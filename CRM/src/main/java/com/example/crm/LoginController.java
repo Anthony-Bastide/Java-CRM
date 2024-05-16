@@ -3,8 +3,10 @@ package com.example.crm;
 import BDD.Users;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.prefs.Preferences;
 
 public class LoginController {
@@ -12,10 +14,10 @@ public class LoginController {
     @FXML
     private TextField identifier;
     @FXML
-    private TextField password;
+    private PasswordField password;
 
     @FXML
-    private void oneClickLogin() {
+    private void oneClickLogin() throws NoSuchAlgorithmException {
         Users user = new Users();
         if (user.login(identifier.getText(), password.getText())) {
             MainView view = new MainView();

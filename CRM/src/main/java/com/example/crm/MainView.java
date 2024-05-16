@@ -1,16 +1,11 @@
 package com.example.crm;
 
-import java.util.prefs.Preferences;
-
-import BDD.Users;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -52,7 +47,6 @@ public class MainView extends Application {
     }
 
     public void changeSceneForSearch(String name, String country, String email, String address, String fxml) {
-        System.out.println("changeSceneForSearch");
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainView.class.getResource(fxml));
             Parent root = fxmlLoader.load();
@@ -103,9 +97,9 @@ public class MainView extends Application {
             scene.setRoot(root);
 
             Platform.runLater(() -> {
-                ManagementUsers managementUsers= fxmlLoader.getController();
+                ManagementUsersController managementUsersController = fxmlLoader.getController();
                 try {
-                    managementUsers.getUsersBdd();
+                    managementUsersController.getUsersBdd();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -145,6 +139,39 @@ public class MainView extends Application {
             Platform.runLater(() -> {
                 AddUserController addUserController = fxmlLoader.getController();
                 addUserController.addDisplayChoiceBox();
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeSceneForAddComment(String fxml, int id) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainView.class.getResource(fxml));
+            Parent root = fxmlLoader.load();
+            scene.setRoot(root);
+
+            AddCommentController addCommentController = fxmlLoader.getController();
+            addCommentController.setId(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void changeSceneForModifyComment(String fxml, int id , int idClient) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainView.class.getResource(fxml));
+            Parent root = fxmlLoader.load();
+            scene.setRoot(root);
+
+            ModifyCommentController modifyCommentController = fxmlLoader.getController();
+            modifyCommentController.setId(id, idClient);
+            Platform.runLater(() -> {
+                try {
+                    modifyCommentController.getCommentsBdd();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             });
         } catch (IOException e) {
             e.printStackTrace();

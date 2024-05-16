@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -15,9 +16,7 @@
         <Label layoutX="90.0" layoutY="140.0" text="E-mail :" />
         <TextField fx:id="add_identifier" layoutX="335.0" layoutY="92.0" prefHeight="28.0" prefWidth="174.0" />
         <Label layoutX="335.0" layoutY="67.0" text="Identifiant :" />
-        <TextField fx:id="add_password" layoutX="90.0" layoutY="237.0" prefHeight="28.0" prefWidth="174.0" promptText="Nouveaux mot de passe" />
         <Label layoutX="90.0" layoutY="212.0" text="Mot de passe :" />
-        <TextField fx:id="add_password2" layoutX="335.0" layoutY="236.0" prefHeight="28.0" prefWidth="174.0" promptText="Nouveaux mot de passe" />
         <Label layoutX="335.0" layoutY="211.0" text="Mot de passe :" />
         <Label layoutX="204.0" layoutY="14.0" text="Ajouter un utilisateur ">
             <font>
@@ -27,6 +26,8 @@
         <Label layoutX="335.0" layoutY="139.0" text="Role :" />
         <ChoiceBox fx:id="add_role" layoutX="335.0" layoutY="165.0" prefHeight="26.0" prefWidth="174.0" />
       <Button layoutX="126.0" layoutY="312.0" mnemonicParsing="false" onAction="#addOnClickAddUsersBdd" prefHeight="26.0" prefWidth="156.0" text="Ajouter" />
-      <Button fx:id="OnClickReturn" layoutX="317.0" layoutY="312.0" mnemonicParsing="false" onAction="#addOnClickAddUsersBdd" prefHeight="26.0" prefWidth="156.0" text="Retour" />
+      <Button fx:id="OnClickReturn" layoutX="317.0" layoutY="312.0" mnemonicParsing="false" onAction="#OnClickReturn" prefHeight="26.0" prefWidth="156.0" text="Retour" />
+      <PasswordField fx:id="add_password" layoutX="90.0" layoutY="236.0" prefHeight="26.0" prefWidth="174.0" promptText="Nouveaux mot de passe" />
+      <PasswordField fx:id="add_password2" layoutX="335.0" layoutY="236.0" prefHeight="26.0" prefWidth="174.0" promptText="Nouveaux mot de passe" />
     </children>
 </AnchorPane>

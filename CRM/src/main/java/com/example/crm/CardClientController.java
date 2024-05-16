@@ -1,12 +1,21 @@
 package com.example.crm;
 
+import org.kordamp.ikonli.fontawesome5.FontAwesomeRegular;
+import org.kordamp.ikonli.javafx.FontIcon;
 import BDD.Clients;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+
+import BDD.Comments;
 
 public class CardClientController {
     private int id;
@@ -39,13 +48,120 @@ public class CardClientController {
     private TextField modify_phone;
     @FXML
     private TextField modify_siret;
+    @FXML
+    private DatePicker startDate;
+    @FXML
+    private DatePicker endDate;
+    @FXML
+    private TableView<ObservableList<Object>> tableComments;
+    @FXML
+    private TableColumn<ObservableList<Object>, String> idColumn;
+    @FXML
+    private TableColumn<ObservableList<Object>, String> dateColumn;
+    @FXML
+    private TableColumn<ObservableList<Object>, String> commentColumn;
+    @FXML
+    private TableColumn<ObservableList<Object>, Void> viewActionColumn;
+    @FXML
+    private TableColumn<ObservableList<Object>, Void> deleteActionColumn;
+
+    private ObservableList<ObservableList<Object>> commentsData = FXCollections.observableArrayList();
+
+    @FXML
+    private void initialize() {
+        idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(0).toString()));
+        dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(2).toString()));
+        commentColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(1).toString()));
+
+        viewActionColumn.setCellFactory(param -> new TableCell<>() {
+            private final Button viewButton = new Button();
+
+            {
+                FontIcon icon = new FontIcon(FontAwesomeRegular.CARET_SQUARE_RIGHT);
+
+                icon.setIconSize(16);
+
+                viewButton.setGraphic(icon);
+
+                viewButton.setOnAction(event -> {
+                    ObservableList<Object> rowData = getTableView().getItems().get(getIndex());
+                    handleViewAction(rowData);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(viewButton);
+                }
+            }
+        });
+
+        deleteActionColumn.setCellFactory(param -> new TableCell<>() {
+            private final Button deleteButton = new Button();
+
+            {
+                FontIcon icon = new FontIcon(FontAwesomeSolid.TRASH);
+
+                icon.setIconSize(16);
+
+                deleteButton.setGraphic(icon);
+
+                deleteButton.setOnAction(event -> {
+                    ObservableList<Object> rowData = getTableView().getItems().get(getIndex());
+                    try {
+                        handleDeleteAction(rowData);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(deleteButton);
+                }
+            }
+        });
+    }
+
+    private void handleViewAction(ObservableList<Object> rowData) {
+        MainView.changeSceneForModifyComment("view_modify_comment.fxml", Integer.parseInt(rowData.get(0).toString()), this.id);
+    }
+
+    private void handleDeleteAction(ObservableList<Object> rowData) throws SQLException {
+        Comments comments = new Comments();
+        boolean success = comments.delete_comment(Integer.parseInt(rowData.get(0).toString()));
+
+        if (success) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText("Le commentaire a été supprimé avec succès.");
+            alert.showAndWait();
+            oneClickSearchComment();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Une erreur est survenue lors de la suppression du commentaire.");
+            alert.showAndWait();
+        }
+    }
 
     public void setId(int id) {
         this.id = id;
     }
+
     @FXML
     public void getClientsBdd() throws SQLException {
-        System.out.println("click");
         Clients client = new Clients();
         ResultSet rs = client.getClientByID(this.id);
 
@@ -68,7 +184,22 @@ public class CardClientController {
             System.out.println("Aucun résultat trouvé pour l'ID spécifié.");
         }
 
-        rs.close();
+        Comments comments = new Comments();
+        ResultSet rs2 = comments.getCommentByIDClient(this.id);
+
+        commentsData.clear();
+
+        while (rs2.next()) {
+            ObservableList<Object> row = FXCollections.observableArrayList();
+            row.add(rs2.getInt("id"));
+            row.add(rs2.getString("comment"));
+            row.add(rs2.getString("date"));
+            commentsData.add(row);
+        }
+
+        tableComments.setItems(commentsData);
+
+        rs2.close();
     }
 
     @FXML
@@ -84,8 +215,20 @@ public class CardClientController {
         String info_add = modify_info_add.getText();
         String activity = modify_activity.getText();
 
-        client.updateClientCard1(this.id, name, country, address, phone, email, civility, info_add, activity);
-        getClientsBdd();
+        boolean success = client.updateClientCard1(this.id, name, country, address, phone, email, civility, info_add, activity);
+        if (success) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Modification du client");
+            alert.setHeaderText(null);
+            alert.setContentText("L'utilisateur a bien été modifié");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Modification du client");
+            alert.setHeaderText(null);
+            alert.setContentText("Une erreur est survenue");
+            alert.showAndWait();
+        }
 
     }
     @FXML
@@ -99,13 +242,61 @@ public class CardClientController {
         String company_address = modify_company_address.getText();
         String website = modify_website.getText();
 
-        client.updateClientCard2(this.id, company_name, siret, status, company_activity, company_address, website);
-        getClientsBdd();
+        boolean success = client.updateClientCard2(this.id, company_name, siret, status, company_activity, company_address, website);
+        if (success) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Modification du client");
+            alert.setHeaderText(null);
+            alert.setContentText("L'utilisateur a bien été modifié");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Modification du client");
+            alert.setHeaderText(null);
+            alert.setContentText("Une erreur est survenue");
+            alert.showAndWait();
+        }
     }
+
     @FXML
     private void oneClickReturn() {
         MainView view = new MainView();
         view.changeSceneForIndex("view_index.fxml");
     }
 
+    @FXML
+    private void oneClickAddComment(){
+        MainView view = new MainView();
+        view.changeSceneForAddComment("view_add_comment.fxml",  this.id);
+    }
+
+    @FXML
+    private void oneClickSearchComment() throws SQLException {
+        LocalDate startValue = startDate.getValue();
+        LocalDate endValue = endDate.getValue();
+
+        Comments comments = new Comments();
+
+        ResultSet rs = null;
+
+        if (startValue == null || endValue == null ) {
+            rs = comments.getCommentByID(this.id);
+        } else{
+            Date startDate = Date.valueOf(startValue);
+            Date endDate = Date.valueOf(endValue);
+
+            rs = comments.searchCommentByDate(this.id, startDate, endDate);
+        }
+
+        commentsData.clear();
+        while (rs.next()) {
+            ObservableList<Object> row = FXCollections.observableArrayList();
+            row.add(rs.getInt("id"));
+            row.add(rs.getString("comment"));
+            row.add(rs.getString("date"));
+            commentsData.add(row);
+        }
+
+        tableComments.setItems(commentsData);
+    }
 }

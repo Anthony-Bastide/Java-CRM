@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -59,6 +62,29 @@
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab fx:id="commentTab" text="Commentaire">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableComments" layoutX="14.0" layoutY="81.0" prefHeight="275.0" prefWidth="572.0">
+                          <columns>
+                              <TableColumn fx:id="idColumn" prefWidth="75.0" text="id" visible="false" />
+                            <TableColumn fx:id="dateColumn" prefWidth="100.0" text="Date" />
+                            <TableColumn fx:id="commentColumn" prefWidth="372.0" text="Commentaire" />
+                              <TableColumn fx:id="viewActionColumn" prefWidth="50.0" />
+                              <TableColumn fx:id="deleteActionColumn" prefWidth="50.0" />
+                          </columns>
+                        </TableView>
+                        <DatePicker fx:id="startDate" layoutX="64.0" layoutY="34.0" prefHeight="26.0" prefWidth="164.0" />
+                        <Button layoutX="457.0" layoutY="34.0" mnemonicParsing="false" onAction="#oneClickSearchComment" text="Rechercher" />
+                        <Button layoutX="547.0" layoutY="34.0" mnemonicParsing="false" onAction="#oneClickAddComment" text="+" />
+                        <Label layoutX="29.0" layoutY="38.0" text="Du :" />
+                        <DatePicker fx:id="endDate" layoutX="278.0" layoutY="34.0" prefHeight="26.0" prefWidth="164.0" />
+                        <Label layoutX="243.0" layoutY="38.0" text="Au :" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>

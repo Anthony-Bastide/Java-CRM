@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.prefs.Preferences;
@@ -89,16 +90,38 @@ public class CardUserController {
         }
 
         Users users = new Users();
-        users.updateInfoUser(this.id, name, identifier, email, parseInt(role));
+        boolean success = users.updateInfoUser(this.id, name, identifier, email, parseInt(role));
+        if (success){
+            Preferences prefs = Preferences.userNodeForPackage(Users.class);
+            String myRole = prefs.get("role","default_value");
+            if (myRole.equals("0")) {
+                MainView view = new MainView();
+                view.changeSceneForManagementUsers("view_management_users.fxml");
+            } else {
+                MainView view = new MainView();
+                view.changeSceneForIndex("view_index.fxml");
+            }
+        }
     }
 
     @FXML
-    public void OnClickUpdatePasswordUsersBdd() {
+    public void OnClickUpdatePasswordUsersBdd() throws NoSuchAlgorithmException {
         String password = modify_password.getText();
         String password2 = modify_password2.getText();
         if (password.equals(password2)) {
             Users users = new Users();
-            users.updatePasswordUser(this.id, password);
+            boolean success = users.updatePasswordUser(this.id, password);
+            if (success){
+                Preferences prefs = Preferences.userNodeForPackage(Users.class);
+                String myRole = prefs.get("role","default_value");
+                if (myRole.equals("0")) {
+                    MainView view = new MainView();
+                    view.changeSceneForManagementUsers("view_management_users.fxml");
+                } else {
+                    MainView view = new MainView();
+                    view.changeSceneForIndex("view_index.fxml");
+                }
+            }
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Problème de modification du mot de passe");
