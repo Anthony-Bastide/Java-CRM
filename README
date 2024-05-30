@@ -27,3 +27,6 @@ Bienvenue dans notre CRM (Customer Relationship Management) développé en Java.
 1. Clonez le dépôt GitHub sur votre machine locale.
    ```bash
    gh repo clone Anthony-Bastide/Java-CRM
+2. Connecter vous. 
+   Mot de passe : admin
+   Identifiant : admin
